@@ -12,7 +12,9 @@ class App extends Component {
     todos: [
       {id:1, content: 'Buy some milk'},
       {id:2, content: 'Play games now'}
-    ]
+    ],
+    colors: ["red", "yellow", "blue", "green", "purple", "pink"],
+    style: ''
   }
   deleteTodo = (id) => {
     const todos = this.state.todos.filter(todo => {
@@ -31,13 +33,22 @@ class App extends Component {
     })
     
   }
+  onClickChangeColor = () => {
+    const colors  = this.state.colors;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    this.setState({
+      style : color
+    })
+    return this.state.style
+    
+  }
   render(){
     return (
       
       <div className="container-fluid">
         <BrowserRouter>
           <Navbar />
-          <Route exact path='/' component={Home} />
+    <Route exact path='/'  render={props => <Home style={this.state.style} onClickChangeColor = {this.onClickChangeColor}/> }/>
           <Route path='/about' component={About} />
           <Route path='/contact' component={Contact} />
         </BrowserRouter>
