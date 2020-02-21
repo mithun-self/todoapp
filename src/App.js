@@ -11,7 +11,18 @@ class App extends Component {
 
   state = {
     colors: ["red", "yellow", "blue", "green", "purple", "pink"],
-    style: ''
+    style: '',
+    posts:[]
+  }
+  componentWillMount() {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => {
+				return response.json()
+			}).then(json => {
+				this.setState({
+					posts:json
+				});
+			});
   }
 
   onClickChangeColor = () => {
@@ -32,8 +43,9 @@ class App extends Component {
     <Route exact path='/'  render={props => <Home style={this.state.style} onClickChangeColor = {this.onClickChangeColor}/> }/>
           <Route path='/about' component={About} />
           <Route path='/contact' component={Contact} />
-          <Route path='/posts' component={Posts} />
+          {/* <Route path='/posts' component={Posts} /> */}
           <Route path='/todos' component={ViewTodos} />
+          <Route path='/posts' render={props => <Posts posts={this.state.posts} /> } />
         </BrowserRouter>
       </div>
     );
